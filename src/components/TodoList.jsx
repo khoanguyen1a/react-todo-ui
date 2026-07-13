@@ -1,6 +1,6 @@
 import TodoItem from "./TodoItem";
 
-function TodoList({ title, todos, completed }) {
+function TodoList({ title, todos, completed, onToggle, onDelete, onEdit }) {
   return (
     <div className="todo-column">
       <h2>{title}</h2>
@@ -11,6 +11,9 @@ function TodoList({ title, todos, completed }) {
             key={todo.id}
             todo={todo}
             completed={completed}
+            onToggle={onToggle}
+            onDelete={onDelete}
+            onEdit={onEdit}
           />
         ))}
       </ul>
