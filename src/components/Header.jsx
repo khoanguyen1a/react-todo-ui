@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 
 function Header({ onAdd }) {
   const [text, setText] = useState("");
@@ -33,4 +33,5 @@ function Header({ onAdd }) {
   );
 }
 
-export default Header;
+
+export default memo(Header);

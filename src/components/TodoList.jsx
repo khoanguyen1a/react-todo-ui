@@ -1,3 +1,4 @@
+import { memo } from "react";
 import TodoItem from "./TodoItem";
 
 function TodoList({ title, todos, completed, onToggle, onDelete, onEdit }) {
@@ -21,4 +22,5 @@ function TodoList({ title, todos, completed, onToggle, onDelete, onEdit }) {
   );
 }
 
-export default TodoList;
+
+export default memo(TodoList);

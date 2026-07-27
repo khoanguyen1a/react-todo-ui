@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import TodoList from "./components/TodoList";
@@ -14,32 +14,44 @@ function App() {
     { id: 5, todo: "Create Vite Project", completed: true },
   ]);
 
-  const addTodo = (text) => {
+  const addTodo = useCallback((text) => {
     const trimmed = text.trim();
     if (!trimmed) return;
 
-    setTodos([...todos, { id: nextId++, todo: trimmed, completed: false }]);
-  };
+    setTodos((prev) => [
+      ...prev,
+      { id: nextId++, todo: trimmed, completed: false },
+    ]);
+  }, []);
 
-  const toggleTodo = (id) => {
-    setTodos(
-      todos.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t))
+  const toggleTodo = useCallback((id) => {
+    setTodos((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t))
     );
-  };
+  }, []);
 
-  const deleteTodo = (id) => {
-    setTodos(todos.filter((t) => t.id !== id));
-  };
+  const deleteTodo = useCallback((id) => {
+    setTodos((prev) => prev.filter((t) => t.id !== id));
+  }, []);
 
-  const editTodo = (id, newText) => {
+  const editTodo = useCallback((id, newText) => {
     const trimmed = newText.trim();
     if (!trimmed) return;
 
-    setTodos(todos.map((t) => (t.id === id ? { ...t, todo: trimmed } : t)));
-  };
+    setTodos((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, todo: trimmed } : t))
+    );
+  }, []);
 
-  const pendingTodos = todos.filter((t) => !t.completed);
-  const completedTodos = todos.filter((t) => t.completed);
+  const pendingTodos = useMemo(
+    () => todos.filter((t) => !t.completed),
+    [todos]
+  );
+
+  const completedTodos = useMemo(
+    () => todos.filter((t) => t.completed),
+    [todos]
+  );
 
   return (
     <div className="container">
